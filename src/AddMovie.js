@@ -8,12 +8,14 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 
 function AddMovie() {
+  const d = new Date
+  let year = d.getFullYear();
 
   const formValidation = yup.object({
     name: yup.string().required(),
     poster: yup.string().required(),
     rating: yup.number().required().min(1).max(10),
-    year: yup.string().required()
+    year: yup.number().required().min(1980).max(year)
   })
 
   const postDAta = (newMovie) => {

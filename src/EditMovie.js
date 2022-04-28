@@ -13,11 +13,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 function EditMovie() {
-  const history = useHistory();
 
   const { id } = useParams();
 
-  const [movie, setMovie] = useState(null);
+  const [ movie, setMovie ] = useState(null);
 
   const getMovie = (id) => {
     fetch(`https://62275cf9d1b3ff08c1ad87c9.mockapi.io/prithiv/movies/${id}`)
@@ -47,11 +46,17 @@ function EditMovie() {
 export default EditMovie;
 
 export function EditMovieForm({ movie }) {
+
+  const history = useHistory();
+  const { id } = useParams();
+
+  const d = new Date
+  let year = d.getFullYear();
   const formValidation = yup.object({
     name: yup.string().required(),
     poster: yup.string().required(),
     rating: yup.number().required().min(1).max(10),
-    year: yup.string().required(),
+    year: yup.number().required().min(1980).max(year),
   });
 
   const formik = useFormik({
@@ -76,8 +81,7 @@ export function EditMovieForm({ movie }) {
       },
     }).then(() => history.push("/movies"));
   };
-  const history = useHistory();
-  const { id } = useParams();
+
 
   return (
     <form onSubmit={formik.handleSubmit} className="add-movie width50">
